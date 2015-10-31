@@ -1,0 +1,14 @@
+[Unit]
+Description=API server for maya on nodejs
+
+[Service]
+Type=simple
+Environment=ENV=production
+WorkingDirectory=/var/lib/maya-js-api/app
+Restart=always
+RestartSec=5
+ExecStart=/var/lib/maya-js-api/.nvm/versions/node/v4.2.1/bin/node index.js
+ExecStop=/bin/kill $MAINPID
+
+[Install]
+WantedBy=multi-user.target
