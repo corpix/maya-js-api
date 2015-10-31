@@ -1,13 +1,18 @@
 var db = require('../../db');
 var HTTPStatus = require('HTTPStatus');
 var log = require('../../logger');
+var mongoose = require('mongoose');
 
 var User = db.entity.user.Model;
 
 module.exports = function (req, res, next) {
     var onReject = function(err) {
         log.error(err);
-        res.status(HTTPStatus.INTERNAL_SERVER_ERROR).end();
+        if(err && err.name === 'ValidationError') {
+            res.status(HTTPStatus.BAD_REQUEST).send(err.message);
+        } else {
+            res.status(HTTPStatus.INTERNAL_SERVER_ERROR).end();
+        }
     };
 
     var promise = new Promise(function(resolve, reject) {

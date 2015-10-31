@@ -18,6 +18,7 @@
     "bunyan": "^1.5.1",
     "express": "~4.13.3",
     "mongodb": "~2.0.47",
+    "vkontakte": "^0.3.0",
     "Response": "git@github.com:B-Vladi/Response.git#develop"
   }
 }
