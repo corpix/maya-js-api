@@ -7,7 +7,7 @@ var User = db.entity.user.Model;
 
 module.exports = function (req, res, next) {
     var onReject = function(err) {
-        log.error(err);
+        log.error(err, req.body);
         if(err && err.name === 'ValidationError') {
             res.status(HTTPStatus.BAD_REQUEST).send(err.message);
         } else {
