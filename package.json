@@ -1,0 +1,19 @@
+{
+  "name": "maya-js-api",
+  "version": "0.0.0",
+  "description": "Hahaton backend application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:corpix/maya-js-api.git"
+  },
+  "author": "",
+  "license": "BEERWARE",
+  "dependencies": {
+    "express": "~4.13.3",
+    "mongodb": "~2.0.47"
+  }
+}
