@@ -13,6 +13,9 @@
   "author": "",
   "license": "BEERWARE",
   "dependencies": {
+    "HTTPStatus": "git+https://github.com/B-Vladi/HTTPStatus.git",
+    "body-parser": "^1.14.1",
+    "bunyan": "^1.5.1",
     "express": "~4.13.3",
     "mongodb": "~2.0.47"
   }

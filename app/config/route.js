@@ -1,3 +1,3 @@
 module.exports = {
-    '/auth': 'api/auth.js'
+    '/api/v1/auth': {module: 'api/v1/auth.js', method: 'post'}
 };
