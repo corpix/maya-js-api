@@ -1,1 +1,1 @@
-var express = require('express');
+module.exports = require('./app/start.js');
