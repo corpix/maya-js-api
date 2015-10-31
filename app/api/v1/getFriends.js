@@ -1,24 +1,54 @@
-var https = require('https');
-var queryString = require('querystring');
-var url = require('url');
-var vkontakte = require('vkontakte');
+var ResponseVK = require('ResponseVK');
+var Response = require('Response');
+var User = require(process.cwd() + '/app/db/entity/user.js');
 
 module.exports = function (req, res, next) {
-    var vk = vkontakte(req.query.token);
-    var params = {
-        user_id: req.query.uid,
-        fields: 'nickname,sex,photo_100',
-        v: '5.37'
-    };
+    var rvk = new ResponseVK(req.query.token);
+    var uid = req.query.uid;
 
-    vk('friends.get', params, function (error, friends) {
-        if (error) {
-            throw error;
-        }
+    var info = rvk
+        .send('users.get', {
+            user_ids: uid,
+            fields: 'photo_100,first_name,last_name',
+            v: '5.37'
+        })
+        .onResolve(function (results) {
+            this.resolve(results[0]);
+        });
 
-        res.send(friends.items.filter(filterFriend));
-        next();
-    });
+    var friends = rvk
+        .send('friends.get', {
+            user_id: uid,
+            fields: 'sex,photo_100',
+            v: '5.37'
+        })
+        .onResolve(function (friends) {
+            this.resolve(friends.items.filter(filterFriend));
+        });
+
+    new Response.Queue([res, info, friends])
+        .strict()
+        .onResolve(function (friends) {
+            /*User.create({
+             id: uid,
+             access_token: this.token,
+             friends: friends,
+             subscriptions: [],
+             avatar: String,
+             first_name: String,
+             last_name: String
+             })*/
+        })
+        .any(function (res, info, friends) {
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            res.send({
+                info: info.getResult(),
+                friends: friends.getResult()
+            });
+        })
+        .any(next)
+        .start();
+
 };
 
 function filterFriend(friend) {
