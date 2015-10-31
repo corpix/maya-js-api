@@ -1,19 +1,17 @@
-var MongoClient = require('mongodb').MongoClient;
+var mongoose = require('mongoose');
 
 function connect(url) {
     return new Promise(function(resolve, reject) {
-        // Use connect method to connect to the Server
-        MongoClient.connect(url, function(err, db) {
-            if (err === null) {
-                resolve(db);
-            } else {
-                reject(err);
-            }
-        });
+        mongoose.connect(url);
+        var db = mongoose.connection;
+        db.on('error', reject);
+        db.once('open', resolve);
     });
 }
 
-
 module.exports = {
-    connect: connect
+    connect: connect,
+    entity: {
+        user: require('./entity/user')
+    }
 };

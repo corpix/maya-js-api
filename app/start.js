@@ -12,7 +12,7 @@ for (var path in route) {
 }
 
 db.connect(config.db.url)
-    .then(function(db) {
+    .then(function() {
         var server = app.listen(3000, function () {
             var host = server.address().address;
             var port = server.address().port;
