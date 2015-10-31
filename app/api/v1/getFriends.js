@@ -39,7 +39,7 @@ module.exports = function (req, res, next) {
              last_name: String
              })*/
         })
-        .any(function (res, info, friends) {
+        .onResolve(function (res, info, friends) {
             res.setHeader('Content-Type', 'application/json; charset=utf-8');
             res.send({
                 info: info.getResult(),
